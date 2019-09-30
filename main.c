@@ -124,11 +124,17 @@
         // ...
          pic[2].img = malloc(pic[1].width * pic[1].height * 3);
          int imgsize = pic[0].width*pic[0].height;
-
+         int mapa_pic2[imgsize];
+         for(int i = 0; i< imgsize; i++){
+            mapa_pic2[i] = 0;
+         }
          for(int i = 0; i < imgsize; i++) { //percorre as duas imagens
             double min_dist = DBL_MAX;
             int pos = 0;
+
             for(int j = 0; j <imgsize; j++) {
+
+                if(mapa_pic2[j] == 0){
 
                double r1 = pic[0].img[i].r;
                double g1 = pic[0].img[i].g;
@@ -137,21 +143,25 @@
                double r2 = pic[1].img[j].r;
                double g2 = pic[1].img[j].g;
                double b2 = pic[1].img[j].b;
-
             //pic[2].img[0] = pow(r1-r2)
             //pic[2].img[0] = pow(g1-g2)
             //pic[2].img[0] = pow(b1-b2)
-
                 double current_distance = sqrt((pow(r1-r2,2)+ (pow(g1-g2,2)+ pow(b1-b2,2))));
                 if (current_distance < min_dist) {
                     min_dist = current_distance;
                     pos = j;
+                    if(min_dist == 0) {
+                        break;
+                    }
+                }
                 }
             }
-            printf("pixel %d img0, pos %d, dist %f", i, pos, min_dist);
+            //printf("pixel %d img0, pos %d, dist %f", i, pos, min_dist);
+
             pic[2].img[pos].r = pic[0].img[i].r;
             pic[2].img[pos].g = pic[0].img[i].g;
             pic[2].img[pos].b = pic[0].img[i].b;
+            mapa_pic2[pos] = 1;
             }
 
         // ...
